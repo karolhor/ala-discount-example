@@ -1,5 +1,6 @@
 package com.github.karolhor.ala.discounts.e2e
 
+import com.github.karolhor.ala.discounts.api.error.ErrorResponse
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
@@ -17,6 +18,7 @@ import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
+import kotlin.reflect.KProperty1
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("integration")

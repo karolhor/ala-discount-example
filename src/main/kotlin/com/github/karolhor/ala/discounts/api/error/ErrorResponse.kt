@@ -6,6 +6,7 @@ data class ErrorResponse(
     data class Error(
         val code: String,
         val message: String,
+        val field: String? = null
     )
 
     companion object {

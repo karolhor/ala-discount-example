@@ -11,6 +11,7 @@ import assertk.assertions.isNotNull
 import assertk.assertions.prop
 import assertk.assertions.startsWith
 import com.github.karolhor.ala.discounts.api.error.ErrorResponse
+import com.github.karolhor.ala.discounts.api.model.Price
 import com.github.karolhor.ala.discounts.api.model.ProductResponse
 import com.github.karolhor.ala.discounts.repository.mongo.model.ProductDocument
 import kotlinx.coroutines.reactor.awaitSingle
@@ -71,7 +72,10 @@ class GetApiProductIntegrationTest : IntegrationTest() {
             name = product.name,
             description = product.description,
             priceInCents = product.price,
-            price = "1765.50"
+            price = Price(
+                inCents = product.price,
+                formatted = "1765.50"
+            )
         )
         // when
         val response = webTestClient.get()
