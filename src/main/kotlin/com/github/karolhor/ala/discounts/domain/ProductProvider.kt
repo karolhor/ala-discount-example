@@ -1,7 +1,6 @@
 package com.github.karolhor.ala.discounts.domain
 
 import com.github.karolhor.ala.discounts.domain.model.Product
-import com.github.karolhor.ala.discounts.repository.ProductRepository
 import org.springframework.stereotype.Component
 import java.util.UUID
 

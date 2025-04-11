@@ -6,6 +6,5 @@ data class ProductResponse(
     val id: UUID,
     val name: String,
     val description: String,
-    val priceInCents: Int,
     val price: Price
 )

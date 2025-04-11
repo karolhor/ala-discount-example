@@ -2,22 +2,20 @@ package com.github.karolhor.ala.discounts.api.mapper
 
 import com.github.karolhor.ala.discounts.api.model.Price
 import org.springframework.stereotype.Component
+import java.math.BigDecimal
 
 @Component
 class PriceApiMapper {
-    fun priceToResponse(priceInCents: Int): Price {
-        val price = priceInCents.toDouble() / CENT_FACTOR
-        val formattedPrice = price.to2DecimalString()
+    fun priceToResponse(price: BigDecimal): Price {
+        val formattedPrice = String.format("%.2f", price)
 
         return Price(
-            inCents = priceInCents,
+            inCents = (price * CENT_FACTOR).toInt(),
             formatted = formattedPrice
         )
     }
 
-    private fun Double.to2DecimalString(): String = String.format("%.2f", this)
-
     companion object {
-        private const val CENT_FACTOR = 100
+        private val CENT_FACTOR = BigDecimal(100)
     }
 }

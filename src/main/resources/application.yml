@@ -2,6 +2,11 @@ spring:
   application:
     name: ala-discounts
 
-  data:
-    mongodb:
-      uri: "mongodb://127.0.0.1:27017/ala_discounts"
+  r2dbc:
+    url: "r2dbc:postgresql://localhost:5432/testDb"
+    username: "someUser"
+    password: "somePassword"
+    pool:
+      enabled: true
+      initial-size: 20
+      max-size: 50

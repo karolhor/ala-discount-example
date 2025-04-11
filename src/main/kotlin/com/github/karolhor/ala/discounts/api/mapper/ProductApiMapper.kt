@@ -13,7 +13,6 @@ class ProductApiMapper(
             id = product.id,
             name = product.name,
             description = product.description,
-            priceInCents = product.price,
             price = priceApiMapper.priceToResponse(product.price)
         )
 }

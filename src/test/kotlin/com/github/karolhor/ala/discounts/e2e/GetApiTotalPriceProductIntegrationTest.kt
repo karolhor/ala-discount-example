@@ -8,28 +8,29 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import assertk.assertions.prop
 import com.github.karolhor.ala.discounts.api.error.ErrorResponse
-import com.github.karolhor.ala.discounts.repository.mongo.model.ProductDocument
+import com.github.karolhor.ala.discounts.repository.db.model.ProductEntity
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.test.web.reactive.server.expectBody
+import java.util.UUID
 
 class GetApiTotalPriceProductIntegrationTest : IntegrationTest() {
-    private val product = ProductDocument(
-        id = "7b34d710-b928-4a6d-a0cb-f7565b95fb66",
-        name = "Test product",
-        description = "Test description",
-        price = 176550
-    )
-
     @BeforeEach
     fun setUp() {
         runTest {
-            insertProductDocument(product)
+            entityTemplate.insert(product).awaitSingle()
         }
     }
+
+    private val product = ProductEntity(
+        id = UUID.fromString("7b34d710-b928-4a6d-a0cb-f7565b95fb66"),
+        name = "Test product",
+        description = "Test description",
+        price = 1765.50.toBigDecimal()
+    )
 
     @ParameterizedTest
     @CsvSource(
@@ -131,9 +132,6 @@ class GetApiTotalPriceProductIntegrationTest : IntegrationTest() {
 //            .isDataClassEqualTo(expectedResponse)
 //    }
 
-    private suspend fun insertProductDocument(productDocument: ProductDocument) {
-        mongoTemplate.insert(productDocument).awaitSingle()
-    }
 
     private fun getProductTotalPriceUrl(productId: String, quantity: String) =
         "/v1/products/$productId/total-price?quantity=$quantity"
