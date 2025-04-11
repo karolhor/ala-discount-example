@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ala-discounts
+
+  data:
+    mongodb:
+      uri: "mongodb://127.0.0.1:27017/ala_discounts"

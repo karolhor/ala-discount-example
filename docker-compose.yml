@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  app:
+    build:
+      dockerfile: "deploy/Dockerfile"
+      context: .
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/ala_discounts
+    ports:
+      - "8080:8080"
+  mongo:
+    image: "mongo:8.0"
+
