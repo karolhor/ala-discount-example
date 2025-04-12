@@ -1,17 +1,17 @@
 package com.github.karolhor.ala.discounts.domain.discount
 
 import com.github.karolhor.ala.discounts.domain.model.PriceDiscount
-import com.github.karolhor.ala.discounts.domain.model.ProductDiscount
+import com.github.karolhor.ala.discounts.domain.model.ProductDiscount.QuantityProductDiscount.DiscountThreshold
 import java.math.BigDecimal
 
 class QuantityDiscountCalcStrategy(
-    private val discount: ProductDiscount.QuantityProductDiscount
+    private val discountThresholds: List<DiscountThreshold>
 ) : DiscountCalcStrategy {
     override fun applyDiscount(
         price: BigDecimal,
         quantity: Int
     ): PriceDiscount {
-        val discountPercentage = discount.thresholds.firstOrNull {
+        val discountPercentage = discountThresholds.firstOrNull {
             quantity >= it.min && (it.max == null || quantity <= it.max)
         }?.value
 
@@ -19,8 +19,6 @@ class QuantityDiscountCalcStrategy(
             return PriceDiscount.ZERO
         }
 
-        return FixedDiscountCalcStrategy(
-            ProductDiscount.FixedProductDiscount(discount.productId, discountPercentage)
-        ).applyDiscount(price, quantity)
+        return FixedDiscountCalcStrategy(discountPercentage).applyDiscount(price, quantity)
     }
 }

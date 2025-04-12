@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 @Component
 class DiscountCalcStrategyFactory {
     fun create(discount: ProductDiscount): DiscountCalcStrategy= when (discount) {
-        is ProductDiscount.FixedProductDiscount -> FixedDiscountCalcStrategy(discount)
-        is ProductDiscount.QuantityProductDiscount -> QuantityDiscountCalcStrategy(discount)
+        is ProductDiscount.FixedProductDiscount -> FixedDiscountCalcStrategy(discount.value)
+        is ProductDiscount.QuantityProductDiscount -> QuantityDiscountCalcStrategy(discount.thresholds)
     }
 }

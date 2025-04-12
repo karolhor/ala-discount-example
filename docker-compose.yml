@@ -17,12 +17,7 @@ services:
       POSTGRES_DB: testDb
       POSTGRES_USER: someUser
       POSTGRES_PASSWORD: somePassword
-      PGDATA: "/data/postgres"
     volumes:
       - "./src/main/resources/sql/schema.sql:/docker-entrypoint-initdb.d/init_schema.sql"
-      - "postgres:/data/postgres"
     ports:
       - "5432:5432"
-
-volumes:
-  postgres:

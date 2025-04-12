@@ -14,13 +14,14 @@ class ProductPriceCalculator(
 ) {
     suspend fun calculateTotalPrice(product: Product, quantity: Int): TotalPrice {
         val discounts = productDiscountsProvider.findDiscountsByProductId(product.id)
-        val totalPrice = product.price * quantity.toBigDecimal()
+
         val discountAmount = if (discounts.isEmpty()) {
             PriceDiscount.ZERO
         } else {
             discounts.maxOf { calcDiscountAmount(product, quantity, it) }
         }
 
+        val totalPrice = product.price * quantity.toBigDecimal()
         return TotalPrice(
             totalPrice = totalPrice,
             discountRate = discountAmount.rate,
