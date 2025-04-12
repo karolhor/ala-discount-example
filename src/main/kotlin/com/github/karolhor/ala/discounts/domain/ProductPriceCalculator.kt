@@ -6,7 +6,6 @@ import com.github.karolhor.ala.discounts.domain.model.Product
 import com.github.karolhor.ala.discounts.domain.model.ProductDiscount
 import com.github.karolhor.ala.discounts.domain.model.TotalPrice
 import org.springframework.stereotype.Component
-import java.math.BigDecimal
 
 @Component
 class ProductPriceCalculator(
