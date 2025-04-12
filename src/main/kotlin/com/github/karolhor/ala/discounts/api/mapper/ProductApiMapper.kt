@@ -22,10 +22,10 @@ class ProductApiMapper {
         unitPrice = product.price.toPriceString(),
         discount = TotalProductPriceResponse.DiscountValues(
             amount = totalPrice.discountAmount.toPriceString(),
-            rate = totalPrice.discountRate,
+            rate = totalPrice.discountRate.toPriceString(),
         ),
-        price = TotalProductPriceResponse.PriceValues(
-            total = totalPrice.totalPrice.toPriceString(),
+        totalPrice = TotalProductPriceResponse.PriceValues(
+            base = totalPrice.totalPrice.toPriceString(),
             final = totalPrice.finalPrice.toPriceString()
         ),
     )

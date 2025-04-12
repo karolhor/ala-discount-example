@@ -11,11 +11,11 @@ class QuantityDiscountCalcStrategy(
         price: BigDecimal,
         quantity: Int
     ): PriceDiscount {
-        val discountPercentage = discount.thresholds.first {
+        val discountPercentage = discount.thresholds.firstOrNull {
             quantity >= it.min && (it.max == null || quantity <= it.max)
-        }.value
+        }?.value
 
-        if (discountPercentage == BigDecimal.ZERO) {
+        if (discountPercentage == null || discountPercentage == BigDecimal.ZERO) {
             return PriceDiscount.ZERO
         }
 

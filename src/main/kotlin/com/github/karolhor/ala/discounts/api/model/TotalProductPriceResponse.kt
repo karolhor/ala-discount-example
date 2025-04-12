@@ -1,6 +1,5 @@
 package com.github.karolhor.ala.discounts.api.model
 
-import java.math.BigDecimal
 import java.util.UUID
 
 data class TotalProductPriceResponse(
@@ -8,15 +7,15 @@ data class TotalProductPriceResponse(
     val quantity: Int,
     val unitPrice: String,
     val discount: DiscountValues,
-    val price: PriceValues
+    val totalPrice: PriceValues
 ) {
     data class DiscountValues(
         val amount: String,
-        val rate: BigDecimal,
+        val rate: String,
     )
 
     data class PriceValues(
-        val total: String,
+        val base: String,
         val final: String
     )
 }
