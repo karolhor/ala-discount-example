@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS discounts_thresholds
     discount_id     UUID NOT NULL,
     threshold_min   INTEGER,
     threshold_max   INTEGER,
-    discount_value  DECIMAL(5, 2),
+    discount_value  DECIMAL(5, 2) NOT NULL,
     CONSTRAINT pk_discounts_thresholds PRIMARY KEY (id),
     CONSTRAINT fk_discounts_thresholds_discount FOREIGN KEY (discount_id)
     REFERENCES discounts (id) ON DELETE CASCADE
