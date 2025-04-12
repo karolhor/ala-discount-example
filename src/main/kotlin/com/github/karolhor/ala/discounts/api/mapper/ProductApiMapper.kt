@@ -7,24 +7,26 @@ import com.github.karolhor.ala.discounts.domain.model.TotalPrice
 import org.springframework.stereotype.Component
 
 @Component
-class ProductApiMapper(
-    private val priceApiMapper: PriceApiMapper
-) {
+class ProductApiMapper {
     fun productToResponse(product: Product): ProductResponse =
         ProductResponse(
             id = product.id,
             name = product.name,
             description = product.description,
-            price = priceApiMapper.priceToResponse(product.price)
+            price = product.price.toPriceString()
         )
 
     fun totalPriceToResponse(product: Product, quantity: Int, totalPrice: TotalPrice) = TotalProductPriceResponse(
         productId = product.id,
         quantity = quantity,
-        unitPrice = priceApiMapper.priceToResponse(product.price),
-        totalPrice = priceApiMapper.priceToResponse(totalPrice.totalPrice),
-        discountAmount = priceApiMapper.priceToResponse(totalPrice.discountAmount),
-        discountRate = totalPrice.discountRate,
-        finalPrice = priceApiMapper.priceToResponse(totalPrice.finalPrice)
+        unitPrice = product.price.toPriceString(),
+        discount = TotalProductPriceResponse.DiscountValues(
+            amount = totalPrice.discountAmount.toPriceString(),
+            rate = totalPrice.discountRate,
+        ),
+        price = TotalProductPriceResponse.PriceValues(
+            total = totalPrice.totalPrice.toPriceString(),
+            final = totalPrice.finalPrice.toPriceString()
+        ),
     )
 }
