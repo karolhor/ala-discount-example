@@ -6,10 +6,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class ProductEntityMapper {
-    fun toDomain(entity: ProductEntity) = Product(
-        id = entity.id,
-        name = entity.name,
-        description = entity.description,
-        price = entity.price,
-    )
+    fun toDomain(entity: ProductEntity) =
+        Product(
+            id = entity.id,
+            name = entity.name,
+            description = entity.description,
+            price = entity.price,
+        )
 }

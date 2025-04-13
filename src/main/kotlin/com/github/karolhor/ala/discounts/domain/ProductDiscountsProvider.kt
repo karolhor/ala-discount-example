@@ -14,16 +14,15 @@ private val logger = KotlinLogging.logger {}
 
 @Component
 class ProductDiscountsProvider(
-    private val discountRepository: ProductDiscountRepository
+    private val discountRepository: ProductDiscountRepository,
 ) {
-    suspend fun findDiscountsByProductId(id: UUID): List<ProductDiscount> {
-        return discountRepository
+    suspend fun findDiscountsByProductId(id: UUID): List<ProductDiscount> =
+        discountRepository
             .findDiscountsByProductId(id)
             .toList()
             .groupBy { it.discountId }
             .filter { (_, thresholds) -> thresholds.isNotEmpty() }
             .mapNotNull { mapDiscounts(it) }
-    }
 
     private fun mapDiscounts(entry: Map.Entry<UUID, List<ProductDiscountThresholdEntity>>): ProductDiscount? =
         when (entry.value.first().policy) {
@@ -34,27 +33,27 @@ class ProductDiscountsProvider(
     private fun mapQuantityDiscount(discountThresholds: List<ProductDiscountThresholdEntity>) =
         ProductDiscount.QuantityProductDiscount(
             productId = discountThresholds.first().productId,
-            thresholds = discountThresholds
-                .filter { it.min != null}
-                .sortedBy { it.min }
-                .map {
-                    ProductDiscount.QuantityProductDiscount.DiscountThreshold(
-                        min = it.min!!,
-                        max = it.max,
-                        value = it.value
-                    )
-                }
+            thresholds =
+                discountThresholds
+                    .filter { it.min != null }
+                    .sortedBy { it.min }
+                    .map {
+                        ProductDiscount.QuantityProductDiscount.DiscountThreshold(
+                            min = it.min!!,
+                            max = it.max,
+                            value = it.value,
+                        )
+                    },
         )
 
-    private fun mapFixedDiscount(discountEntity: ProductDiscountThresholdEntity): ProductDiscount.FixedProductDiscount? {
-        return if (discountEntity.value == BigDecimal.ZERO) {
+    private fun mapFixedDiscount(discountEntity: ProductDiscountThresholdEntity): ProductDiscount.FixedProductDiscount? =
+        if (discountEntity.value == BigDecimal.ZERO) {
             logger.warn { "Ignoring fixed discount with 0 value. $discountEntity" }
             null
         } else {
             ProductDiscount.FixedProductDiscount(
                 productId = discountEntity.productId,
-                value = discountEntity.value
+                value = discountEntity.value,
             )
         }
-    }
 }

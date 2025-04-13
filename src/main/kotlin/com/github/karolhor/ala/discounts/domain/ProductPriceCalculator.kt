@@ -10,27 +10,35 @@ import org.springframework.stereotype.Component
 @Component
 class ProductPriceCalculator(
     private val productDiscountsProvider: ProductDiscountsProvider,
-    private val discountCalcStrategyFactory: DiscountCalcStrategyFactory
+    private val discountCalcStrategyFactory: DiscountCalcStrategyFactory,
 ) {
-    suspend fun calculateTotalPrice(product: Product, quantity: Int): TotalPrice {
+    suspend fun calculateTotalPrice(
+        product: Product,
+        quantity: Int,
+    ): TotalPrice {
         val discounts = productDiscountsProvider.findDiscountsByProductId(product.id)
 
-        val discountAmount = if (discounts.isEmpty()) {
-            PriceDiscount.ZERO
-        } else {
-            discounts.maxOf { calcDiscountAmount(product, quantity, it) }
-        }
+        val discountAmount =
+            if (discounts.isEmpty()) {
+                PriceDiscount.ZERO
+            } else {
+                discounts.maxOf { calcDiscountAmount(product, quantity, it) }
+            }
 
         val totalPrice = product.price * quantity.toBigDecimal()
         return TotalPrice(
             totalPrice = totalPrice,
             discountRate = discountAmount.rate,
             discountAmount = discountAmount.amount,
-            finalPrice = totalPrice - discountAmount.amount
+            finalPrice = totalPrice - discountAmount.amount,
         )
     }
 
-    private fun calcDiscountAmount(product: Product, quantity: Int, discount: ProductDiscount): PriceDiscount =
+    private fun calcDiscountAmount(
+        product: Product,
+        quantity: Int,
+        discount: ProductDiscount,
+    ): PriceDiscount =
         discountCalcStrategyFactory
             .create(discount)
             .applyDiscount(product.price, quantity)

@@ -6,5 +6,5 @@ data class TotalPrice(
     val discountRate: BigDecimal,
     val totalPrice: BigDecimal,
     val discountAmount: BigDecimal,
-    val finalPrice: BigDecimal
+    val finalPrice: BigDecimal,
 )

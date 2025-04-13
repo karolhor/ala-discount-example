@@ -37,28 +37,34 @@ class GetApiTotalPriceProductIntegrationTest : IntegrationTest() {
             "-1   | must be greater than or equal to 1",
             "0    | must be greater than or equal to 1",
             "null | missing required query parameter",
-        ]
+        ],
     )
-    fun `should return 400 when quantity has invalid value`(quantity: Int?, errorMessage: String) {
+    fun `should return 400 when quantity has invalid value`(
+        quantity: Int?,
+        errorMessage: String,
+    ) {
         // given
         val unknownProductId = "58bb4acf-4d49-40cf-ac06-6573fce400ae"
         val url =
             quantity?.let { getProductTotalPriceUrl(unknownProductId, it) } ?: getProductTotalPriceUrlWithoutQuantity(
-                unknownProductId
+                unknownProductId,
             )
 
         // when
-        val response = webTestClient.get()
-            .uri(url)
-            .exchange()
+        val response =
+            webTestClient
+                .get()
+                .uri(url)
+                .exchange()
 
         // then
-        val errorsBody = response
-            .expectStatus().isBadRequest
-            .expectBody<ErrorResponse>()
-            .returnResult()
-            .responseBody
-
+        val errorsBody =
+            response
+                .expectStatus()
+                .isBadRequest
+                .expectBody<ErrorResponse>()
+                .returnResult()
+                .responseBody
 
         // and
         assertThat(errorsBody).isNotNull().all {
@@ -77,16 +83,20 @@ class GetApiTotalPriceProductIntegrationTest : IntegrationTest() {
         val unknownProductId = "58bb4acf-4d49-40cf-ac06-6573fce400ae"
 
         // when
-        val response = webTestClient.get()
-            .uri(getProductTotalPriceUrl(unknownProductId, 11))
-            .exchange()
+        val response =
+            webTestClient
+                .get()
+                .uri(getProductTotalPriceUrl(unknownProductId, 11))
+                .exchange()
 
         // then
-        val errorsBody = response
-            .expectStatus().isNotFound
-            .expectBody<ErrorResponse>()
-            .returnResult()
-            .responseBody
+        val errorsBody =
+            response
+                .expectStatus()
+                .isNotFound
+                .expectBody<ErrorResponse>()
+                .returnResult()
+                .responseBody
 
         // and
         assertProductNotFound(errorsBody, unknownProductId)
@@ -107,7 +117,7 @@ class GetApiTotalPriceProductIntegrationTest : IntegrationTest() {
             "39fa0600-9590-4910-a5a4-acd7abc96f2d | 1  | 5.00  | 27.20    | 544.00    | 516.80", // mixed
             "39fa0600-9590-4910-a5a4-acd7abc96f2d | 7  | 5.00  | 190.40   | 3808.00   | 3617.60", // mixed
             "39fa0600-9590-4910-a5a4-acd7abc96f2d | 12 | 8.00  | 522.24   | 6528.00   | 6005.76", // mixed
-        ]
+        ],
     )
     fun `should calculate total price`(
         productId: String,
@@ -115,19 +125,23 @@ class GetApiTotalPriceProductIntegrationTest : IntegrationTest() {
         discountRate: String,
         discountAmount: String,
         basePrice: String,
-        finalPrice: String
+        finalPrice: String,
     ) {
         // when
-        val response = webTestClient.get()
-            .uri(getProductTotalPriceUrl(productId, quantity))
-            .exchange()
+        val response =
+            webTestClient
+                .get()
+                .uri(getProductTotalPriceUrl(productId, quantity))
+                .exchange()
 
         // then
-        val body = response
-            .expectStatus().isOk
-            .expectBody<TotalProductPriceResponse>()
-            .returnResult()
-            .responseBody
+        val body =
+            response
+                .expectStatus()
+                .isOk
+                .expectBody<TotalProductPriceResponse>()
+                .returnResult()
+                .responseBody
 
         assertThat(body).isNotNull().all {
             prop(TotalProductPriceResponse::discount).all {
@@ -139,12 +153,12 @@ class GetApiTotalPriceProductIntegrationTest : IntegrationTest() {
                 prop(TotalProductPriceResponse.PriceValues::final).isEqualTo(finalPrice)
             }
         }
-
     }
 
-
-    private fun getProductTotalPriceUrl(productId: String, quantity: Int) =
-        "/v1/products/$productId/total-price?quantity=$quantity"
+    private fun getProductTotalPriceUrl(
+        productId: String,
+        quantity: Int,
+    ) = "/v1/products/$productId/total-price?quantity=$quantity"
 
     private fun getProductTotalPriceUrlWithoutQuantity(productId: String) = "/v1/products/$productId/total-price"
 }

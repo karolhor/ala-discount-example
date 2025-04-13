@@ -6,10 +6,12 @@ import java.util.UUID
 
 @Component
 class ProductProvider(
-    private val repository: ProductRepository
+    private val repository: ProductRepository,
 ) {
     suspend fun getProductById(productId: UUID): Product =
         repository.findProductById(productId) ?: throw ProductNotFoundException(productId)
 }
 
-class ProductNotFoundException(productId: UUID) : RuntimeException("Product not found. Id: $productId")
+class ProductNotFoundException(
+    productId: UUID,
+) : RuntimeException("Product not found. Id: $productId")

@@ -9,8 +9,7 @@ import java.util.UUID
 data class ProductEntity(
     @Id
     val id: UUID,
-
     val name: String,
     val description: String,
-    val price: BigDecimal
+    val price: BigDecimal,
 )

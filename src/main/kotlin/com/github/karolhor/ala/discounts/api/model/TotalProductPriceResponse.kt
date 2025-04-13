@@ -7,7 +7,7 @@ data class TotalProductPriceResponse(
     val quantity: Int,
     val unitPrice: String,
     val discount: DiscountValues,
-    val totalPrice: PriceValues
+    val totalPrice: PriceValues,
 ) {
     data class DiscountValues(
         val amount: String,
@@ -16,6 +16,6 @@ data class TotalProductPriceResponse(
 
     data class PriceValues(
         val base: String,
-        val final: String
+        val final: String,
     )
 }

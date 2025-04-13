@@ -24,7 +24,6 @@ import org.testcontainers.utility.DockerImageName
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @Testcontainers
 abstract class IntegrationTest {
-
     @Autowired
     lateinit var webTestClient: WebTestClient
 
@@ -36,15 +35,16 @@ abstract class IntegrationTest {
         runBlocking {
             val databaseClient = entityTemplate.databaseClient
 
-            val tableNames = databaseClient.sql(
-                """
-                SELECT tablename FROM pg_tables WHERE schemaname = 'public'
-                """.trimIndent()
-            )
-                .map { row, _ -> row.get("tablename", String::class.java)!! }
-                .all()
-                .collectList()
-                .awaitSingle()
+            val tableNames =
+                databaseClient
+                    .sql(
+                        """
+                        SELECT tablename FROM pg_tables WHERE schemaname = 'public'
+                        """.trimIndent(),
+                    ).map { row, _ -> row.get("tablename", String::class.java)!! }
+                    .all()
+                    .collectList()
+                    .awaitSingle()
 
             databaseClient.sql("SET session_replication_role = replica").then().awaitSingleOrNull()
 
@@ -58,8 +58,9 @@ abstract class IntegrationTest {
 
     companion object {
         @Container
-        private val postgresContainer = PostgreSQLContainer(DockerImageName.parse("postgres:17.4-alpine"))
-            .withInitScript("sql/schema.sql")
+        private val postgresContainer =
+            PostgreSQLContainer(DockerImageName.parse("postgres:17.4-alpine"))
+                .withInitScript("sql/schema.sql")
 
         @JvmStatic
         @DynamicPropertySource

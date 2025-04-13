@@ -18,9 +18,14 @@ class FixedDiscountCalcStrategyTest {
             "5.00   | 35.11  | 451 | 791.73", // rounding down from 791,7305
             "11.50  | 45.99  | 35  | 185.11", // rounding up from 185,10975
             "100.00 | 131.21 | 45  | 5904.45",
-        ]
+        ],
     )
-    fun `should apply discount`(discountRate: BigDecimal, price: BigDecimal, quantity: Int, expectedDiscountAmount: BigDecimal) {
+    fun `should apply discount`(
+        discountRate: BigDecimal,
+        price: BigDecimal,
+        quantity: Int,
+        expectedDiscountAmount: BigDecimal,
+    ) {
         // when
         val result = FixedDiscountCalcStrategy(discountRate).applyDiscount(price, quantity)
 

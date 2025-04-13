@@ -20,11 +20,12 @@ import java.util.UUID
 class ProductApiEndpoint(
     private val productApiMapper: ProductApiMapper,
     private val productProvider: ProductProvider,
-    private val productPriceCalculator: ProductPriceCalculator
+    private val productPriceCalculator: ProductPriceCalculator,
 ) {
-
     @GetMapping("/{id}")
-    suspend fun getProductDetails(@PathVariable id: UUID): ProductResponse {
+    suspend fun getProductDetails(
+        @PathVariable id: UUID,
+    ): ProductResponse {
         val product = productProvider.getProductById(id)
         return productApiMapper.productToResponse(product)
     }
@@ -32,7 +33,7 @@ class ProductApiEndpoint(
     @GetMapping("/{id}/total-price")
     suspend fun calcTotalPrice(
         @PathVariable id: UUID,
-        @RequestParam(value = "quantity", required = true) @Min(1) quantity: Int
+        @RequestParam(value = "quantity", required = true) @Min(1) quantity: Int,
     ): TotalProductPriceResponse {
         val product = productProvider.getProductById(id)
         val totalPrice = productPriceCalculator.calculateTotalPrice(product, quantity)

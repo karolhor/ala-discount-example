@@ -29,16 +29,20 @@ class GetApiProductIntegrationTest : IntegrationTest() {
         val unknownProductId = "58bb4acf-4d49-40cf-ac06-6573fce400ae"
 
         // when
-        val response = webTestClient.get()
-            .uri(getProductUrl(unknownProductId))
-            .exchange()
+        val response =
+            webTestClient
+                .get()
+                .uri(getProductUrl(unknownProductId))
+                .exchange()
 
         // then
-        val errorsBody = response
-            .expectStatus().isNotFound
-            .expectBody<ErrorResponse>()
-            .returnResult()
-            .responseBody
+        val errorsBody =
+            response
+                .expectStatus()
+                .isNotFound
+                .expectBody<ErrorResponse>()
+                .returnResult()
+                .responseBody
 
         // and
         assertProductNotFound(errorsBody, unknownProductId)
@@ -47,23 +51,28 @@ class GetApiProductIntegrationTest : IntegrationTest() {
     @Test
     fun `should return product by id`() {
         // given
-        val expectedResponse = ProductResponse(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            price = "1765.50"
-        )
+        val expectedResponse =
+            ProductResponse(
+                id = product.id,
+                name = product.name,
+                description = product.description,
+                price = "1765.50",
+            )
         // when
-        val response = webTestClient.get()
-            .uri(getProductUrl(product.id.toString()))
-            .exchange()
+        val response =
+            webTestClient
+                .get()
+                .uri(getProductUrl(product.id.toString()))
+                .exchange()
 
         // then
-        val body = response
-            .expectStatus().isOk
-            .expectBody<ProductResponse>()
-            .returnResult()
-            .responseBody
+        val body =
+            response
+                .expectStatus()
+                .isOk
+                .expectBody<ProductResponse>()
+                .returnResult()
+                .responseBody
 
         assertThat(body)
             .isNotNull()

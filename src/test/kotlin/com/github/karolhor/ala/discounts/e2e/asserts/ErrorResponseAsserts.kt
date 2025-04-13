@@ -12,7 +12,10 @@ import assertk.assertions.startsWith
 import com.github.karolhor.ala.discounts.api.error.ErrorResponse
 
 object ErrorResponseAsserts {
-    fun assertProductNotFound(errorResponse: ErrorResponse?, productId: String) {
+    fun assertProductNotFound(
+        errorResponse: ErrorResponse?,
+        productId: String,
+    ) {
         assertThat(errorResponse).isNotNull().all {
             prop(ErrorResponse::errors).hasSize(1)
             prop(ErrorResponse::errors).index(0).all {

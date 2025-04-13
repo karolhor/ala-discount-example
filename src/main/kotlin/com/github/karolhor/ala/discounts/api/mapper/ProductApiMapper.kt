@@ -13,20 +13,26 @@ class ProductApiMapper {
             id = product.id,
             name = product.name,
             description = product.description,
-            price = product.price.toPriceString()
+            price = product.price.toPriceString(),
         )
 
-    fun totalPriceToResponse(product: Product, quantity: Int, totalPrice: TotalPrice) = TotalProductPriceResponse(
+    fun totalPriceToResponse(
+        product: Product,
+        quantity: Int,
+        totalPrice: TotalPrice,
+    ) = TotalProductPriceResponse(
         productId = product.id,
         quantity = quantity,
         unitPrice = product.price.toPriceString(),
-        discount = TotalProductPriceResponse.DiscountValues(
-            amount = totalPrice.discountAmount.toPriceString(),
-            rate = totalPrice.discountRate.toPriceString(),
-        ),
-        totalPrice = TotalProductPriceResponse.PriceValues(
-            base = totalPrice.totalPrice.toPriceString(),
-            final = totalPrice.finalPrice.toPriceString()
-        ),
+        discount =
+            TotalProductPriceResponse.DiscountValues(
+                amount = totalPrice.discountAmount.toPriceString(),
+                rate = totalPrice.discountRate.toPriceString(),
+            ),
+        totalPrice =
+            TotalProductPriceResponse.PriceValues(
+                base = totalPrice.totalPrice.toPriceString(),
+                final = totalPrice.finalPrice.toPriceString(),
+            ),
     )
 }

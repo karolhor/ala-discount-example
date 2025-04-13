@@ -9,22 +9,22 @@ import org.junit.jupiter.params.provider.CsvSource
 import java.math.BigDecimal
 
 class QuantityDiscountCalcStrategyTest {
-
     @Test
     fun `should return 0 when there is no threshold discount for given quantity`() {
         // given
-        val thresholds = listOf(
-            DiscountThreshold(
-                min = 5,
-                max = 11,
-                value = BigDecimal.ONE
-            ),
-            DiscountThreshold(
-                min = 12,
-                max = 15,
-                value = BigDecimal.TWO
+        val thresholds =
+            listOf(
+                DiscountThreshold(
+                    min = 5,
+                    max = 11,
+                    value = BigDecimal.ONE,
+                ),
+                DiscountThreshold(
+                    min = 12,
+                    max = 15,
+                    value = BigDecimal.TWO,
+                ),
             )
-        )
 
         // when
         val result = QuantityDiscountCalcStrategy(thresholds).applyDiscount(BigDecimal.TEN, 3)
@@ -46,27 +46,32 @@ class QuantityDiscountCalcStrategyTest {
             "16   | 4.00 | 78.79",
             "18   | 4.00 | 88.64",
             "1001 | 4.00 | 4929.32",
-        ]
+        ],
     )
-    fun `should apply discount from selected threshold by quantity`(quantity: Int, discountRate: BigDecimal, expectedDiscountAmount: BigDecimal) {
+    fun `should apply discount from selected threshold by quantity`(
+        quantity: Int,
+        discountRate: BigDecimal,
+        expectedDiscountAmount: BigDecimal,
+    ) {
         // given
-        val thresholds = listOf(
-            DiscountThreshold(
-                min = 5,
-                max = 11,
-                value = "2.00".toBigDecimal(),
-            ),
-            DiscountThreshold(
-                min = 12,
-                max = 15,
-                value = "3.00".toBigDecimal(),
-            ),
-            DiscountThreshold(
-                min = 16,
-                max = null,
-                value = "4.00".toBigDecimal(),
+        val thresholds =
+            listOf(
+                DiscountThreshold(
+                    min = 5,
+                    max = 11,
+                    value = "2.00".toBigDecimal(),
+                ),
+                DiscountThreshold(
+                    min = 12,
+                    max = 15,
+                    value = "3.00".toBigDecimal(),
+                ),
+                DiscountThreshold(
+                    min = 16,
+                    max = null,
+                    value = "4.00".toBigDecimal(),
+                ),
             )
-        )
         val price = "123.11".toBigDecimal()
 
         // when

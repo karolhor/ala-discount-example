@@ -14,7 +14,7 @@ interface ProductDiscountRepository : CoroutineCrudRepository<DiscountEntity, UU
         FROM discounts d
         JOIN discounts_thresholds dt ON d.id = dt.discount_id
         WHERE d.product_id = :productId
-        """
+        """,
     )
     fun findDiscountsByProductId(productId: UUID): Flow<ProductDiscountThresholdEntity>
 }

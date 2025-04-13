@@ -8,53 +8,42 @@ import java.util.UUID
 
 enum class DiscountPolicy {
     QUANTITY,
-    FIXED
+    FIXED,
 }
 
 @Table(name = "discounts")
 data class DiscountEntity(
     @Id
     val id: UUID,
-
     @Column("product_id")
     val productId: UUID,
-
-    val policy: DiscountPolicy
+    val policy: DiscountPolicy,
 )
 
 @Table(name = "discounts_thresholds")
 data class DiscountThresholdEntity(
     @Id
     val id: UUID,
-
     @Column("discount_id")
     val discountId: UUID,
-
     @Column("threshold_min")
     val min: Int? = null,
-
     @Column("threshold_max")
     val max: Int? = null,
-
     @Column("discount_value")
-    val value: BigDecimal
+    val value: BigDecimal,
 )
 
 data class ProductDiscountThresholdEntity(
     @Column("product_id")
     val productId: UUID,
-
     @Column("discount_id")
     val discountId: UUID,
-
     val policy: DiscountPolicy,
-
     @Column("threshold_min")
     val min: Int? = null,
-
     @Column("threshold_max")
     val max: Int? = null,
-
     @Column("discount_value")
-    val value: BigDecimal
+    val value: BigDecimal,
 )

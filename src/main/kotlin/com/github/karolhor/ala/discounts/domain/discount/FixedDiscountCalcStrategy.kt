@@ -10,8 +10,10 @@ private val logger = KotlinLogging.logger {}
 class FixedDiscountCalcStrategy(
     private val discountRate: BigDecimal,
 ) : DiscountCalcStrategy {
-
-    override fun applyDiscount(price: BigDecimal, quantity: Int): PriceDiscount {
+    override fun applyDiscount(
+        price: BigDecimal,
+        quantity: Int,
+    ): PriceDiscount {
         val totalPrice = price * quantity.toBigDecimal()
 
         if (discountRate >= MAX_DISCOUNT) {
@@ -39,4 +41,5 @@ class FixedDiscountCalcStrategy(
 }
 
 private const val PRICE_PRECISION = 2
+
 private fun BigDecimal.withPriceScale() = this.setScale(PRICE_PRECISION, RoundingMode.HALF_UP)
