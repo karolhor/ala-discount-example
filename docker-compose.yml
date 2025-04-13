@@ -20,5 +20,5 @@ services:
     volumes:
       - "./src/main/resources/sql/schema.sql:/docker-entrypoint-initdb.d/01_init_schema.sql"
       - "./example/example_data.sql:/docker-entrypoint-initdb.d/02_example_data.sql.sql"
-    ports:
-      - "5432:5432"
+#    ports:
+#      - "5432:5432"

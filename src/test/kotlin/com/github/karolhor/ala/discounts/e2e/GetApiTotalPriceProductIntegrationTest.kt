@@ -4,12 +4,10 @@ import assertk.all
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.index
-import assertk.assertions.isDataClassEqualTo
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import assertk.assertions.prop
 import com.github.karolhor.ala.discounts.api.error.ErrorResponse
-import com.github.karolhor.ala.discounts.api.model.ProductResponse
 import com.github.karolhor.ala.discounts.api.model.TotalProductPriceResponse
 import com.github.karolhor.ala.discounts.e2e.asserts.ErrorResponseAsserts.assertProductNotFound
 import com.github.karolhor.ala.discounts.fixtures.ProductFixtures
